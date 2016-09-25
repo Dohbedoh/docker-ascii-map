@@ -5,4 +5,4 @@ class Box:
         self.links = []
 
     def render(self):
-        return ' '
+        return ''

@@ -1,4 +1,4 @@
-# docker-map
+# docker-ascii-map
 A set of python scripts displaying the local docker containers structure and status on an ascii map.
 
 ## Requirements

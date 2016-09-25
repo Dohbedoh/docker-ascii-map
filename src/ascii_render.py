@@ -5,6 +5,6 @@ class Renderer:
     def __init__(self):
         pass
 
-    def render(config):
+    def render(self, config):
         box = Box()
         return box.render()
