@@ -6,5 +6,6 @@ if __name__ == '__main__':
     renderer = Renderer()
 
     config = parser.get_configuration()
+    print(config)
     text = renderer.render(config)
     print(text)
