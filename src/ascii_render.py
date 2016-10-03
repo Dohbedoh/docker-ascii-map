@@ -1,4 +1,4 @@
-from box_model import Box
+from box_model import VBox
 
 
 class Renderer:
@@ -6,5 +6,5 @@ class Renderer:
         pass
 
     def render(self, config):
-        box = Box()
-        return box.render()
+        box = VBox([])
+        return str(box.render())
