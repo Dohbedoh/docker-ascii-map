@@ -1,4 +1,4 @@
-from box_model import VBox
+from widget import VBox
 
 
 class Renderer:

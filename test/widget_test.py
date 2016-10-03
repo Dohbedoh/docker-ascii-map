@@ -1,9 +1,14 @@
 import unittest
 
-from box_model import *
+from widget import *
 
 
 class ModelTests(unittest.TestCase):
+    @staticmethod
+    def test_abstracts():
+        w = Widget()
+        w.render()
+
     def test_rendering(self):
         model = Paragraph(['Hello', 'World !'])
         self.assertEqual('Hello\nWorld !\n', str(model.render()))

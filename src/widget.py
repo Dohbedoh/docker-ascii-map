@@ -53,16 +53,6 @@ class Paragraph(Widget):
     def __init__(self, lines: List[str]):
         self._lines = lines
 
-    def size(self):
-        width = 0
-        height = 0
-
-        for line in self._lines:
-            height += 1
-            width = max(len(line), width)
-
-        return width, height
-
     def render(self):
         r = Raster()
 
