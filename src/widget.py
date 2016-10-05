@@ -8,27 +8,33 @@ class Widget:
 
 
 class Border(Widget):
-    def __init__(self, component: Widget):
+    def __init__(self, component: Widget, title: str = ''):
         self._component = component
+        self._title = title
 
     def render(self):
         cmp_raster = self._component.render()
         cmp_w, cmp_h = cmp_raster.size()
 
+        min_width = 2 + len(self._title)
+        width = max(min_width, cmp_w)
+
         r = Raster()
 
         for y in range(cmp_h + 2):
             r.write(0, y, '|')
-            r.write(cmp_w + 3, y, '|')
+            r.write(width + 3, y, '|')
 
-        for x in range(cmp_w + 4):
+        for x in range(width + 4):
             r.write(x, 0, '-')
             r.write(x, cmp_h + 1, '-')
 
         r.write(0, 0, '+')
-        r.write(cmp_w + 3, 0, '+')
+        r.write(width + 3, 0, '+')
         r.write(0, cmp_h + 1, '+')
-        r.write(cmp_w + 3, cmp_h + 1, '+')
+        r.write(width + 3, cmp_h + 1, '+')
+
+        r.write(2, 0, ' ' + self._title + ' ')
 
         r.write(2, 1, cmp_raster)
 
