@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ascii_render import Renderer
 from docker_config import ConfigParser
 
