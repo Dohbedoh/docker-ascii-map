@@ -15,20 +15,24 @@ class Renderer:
             for net in container.networks:
                 networks.add(net)
 
+        networks = list(networks)
+        networks.sort()
+
         for net in networks:
             net_widgets = []
 
             for container in config.containers:
-                lines = []
+                if net in container.networks:
+                    lines = []
 
-                if container.status == 'running':
-                    statuschar = u"\u2713"
-                else:
-                    statuschar = u"\u274c"
+                    if container.status == 'running':
+                        statuschar = u"\u2713"
+                    else:
+                        statuschar = u"\u274c"
 
-                lines.append('[' + statuschar + '] ' + container.name)
-                lines.append('    ' + container.image)
-                net_widgets.append(Paragraph(lines))
+                    lines.append('[' + statuschar + '] ' + container.name)
+                    lines.append('    ' + container.image)
+                    net_widgets.append(Paragraph(lines))
 
             root_widgets.append(Border(VBox(net_widgets), net))
 
