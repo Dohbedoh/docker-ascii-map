@@ -1,11 +1,12 @@
 import unittest
 
+from docker_config import *
 from ascii_render import Renderer
 
 
 class RenderingTests(unittest.TestCase):
     def test_renderer(self):
-        config = []
+        config = Configuration([])
         renderer = Renderer()
 
         self.assertEqual('', renderer.render(config))

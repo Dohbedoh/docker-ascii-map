@@ -17,7 +17,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual('Hello\nWorld !\n', str(model.render()))
 
         model = Border(Paragraph(['Hello', 'World !']))
-        self.assertEqual('+---------+\n| Hello   |\n| World ! |\n+---------+\n', str(model.render()))
+        self.assertEqual('+-  ------+\n| Hello   |\n| World ! |\n+---------+\n', str(model.render()))
 
 
 if __name__ == '__main__':
