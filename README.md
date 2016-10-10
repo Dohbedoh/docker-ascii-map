@@ -3,7 +3,7 @@ A set of python scripts displaying the local docker containers structure and sta
 
 ## Requirements
 
-* python 3.2
+* python 3.5
 * docker-py
 
 ## Usage
