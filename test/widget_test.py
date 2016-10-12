@@ -8,16 +8,59 @@ class ModelTests(unittest.TestCase):
     def test_abstracts():
         w = Widget()
         w.render()
+        w.preferred_size()
 
-    def test_rendering(self):
+    def test_size(self):
+        size = Size(2, 3)
+        self.assertEqual(2, size.width)
+        self.assertEqual(3, size.height)
+        self.assertEqual('Size{w:2,h:3}', repr(size))
+        self.assertEqual('Size{w:2,h:3}', str(size))
+
+    def test_paragraph(self):
         model = Paragraph(['Hello', 'World !'])
         self.assertEqual('Hello\nWorld !\n', str(model.render()))
 
-        model = VBox([Paragraph(['Hello', 'World !'])])
-        self.assertEqual('Hello\nWorld !\n', str(model.render()))
+    def test_VBox(self):
+        model = VBox([Paragraph(['Hello', 'World !']), Paragraph(['Python rules !'])])
+        self.assertEqual('Hello\nWorld !\nPython rules !\n', str(model.render()))
 
+    def test_VBox_Borders(self):
+        model = VBox([Border(Paragraph(['Hello', 'World !'])), Border(Paragraph(['Python rules !']))])
+        self.assertEqual(
+            '+----------------+\n'
+            '| Hello          |\n'
+            '| World !        |\n'
+            '+----------------+\n'
+            '+----------------+\n'
+            '| Python rules ! |\n'
+            '+----------------+\n',
+            str(model.render()))
+
+    def test_HBox(self):
+        model = HBox([Paragraph(['Hello', 'World !']), Paragraph(['Python rules !'])])
+        self.assertEqual('Hello  Python rules !\nWorld !\n', str(model.render()))
+        self.assertEqual(Size(21, 2), model.preferred_size())
+
+    def test_Border_WithoutTitle(self):
         model = Border(Paragraph(['Hello', 'World !']))
-        self.assertEqual('+-  ------+\n| Hello   |\n| World ! |\n+---------+\n', str(model.render()))
+        self.assertEqual('+---------+\n| Hello   |\n| World ! |\n+---------+\n', str(model.render()))
+
+    def test_Border_WithTitle(self):
+        model = Border(Paragraph(['Hello', 'World !']), 'Tt')
+        self.assertEqual('+- Tt ----+\n| Hello   |\n| World ! |\n+---------+\n', str(model.render()))
+
+    def test_Border_Filler(self):
+        self.maxDiff = None
+        model = Border(Paragraph(['Hello', 'World !']))
+        self.assertEqual(
+            '+----------------+\n'
+            '| Hello          |\n'
+            '| World !        |\n'
+            '|                |\n'
+            '+----------------+\n'
+            ,
+            str(model.render(Hints(Size(18, 5)))))
 
 
 if __name__ == '__main__':
