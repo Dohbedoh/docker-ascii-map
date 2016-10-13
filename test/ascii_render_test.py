@@ -38,7 +38,7 @@ class RenderingTests(unittest.TestCase):
         renderer = Renderer()
 
         text = renderer.render(config)
-        # print(text)
+        print(text)
 
         # self.assertEqual('', text)
 

@@ -23,7 +23,11 @@ class ModelTests(unittest.TestCase):
 
     def test_VBox(self):
         model = VBox([Paragraph(['Hello', 'World !']), Paragraph(['Python rules !'])])
-        self.assertEqual('Hello\nWorld !\nPython rules !\n', str(model.render()))
+        self.assertEqual(
+            'Hello  \n'
+            'World !\n'
+            'Python rules !\n',
+            str(model.render()))
 
     def test_VBox_Borders(self):
         model = VBox([Border(Paragraph(['Hello', 'World !'])), Border(Paragraph(['Python rules !']))])
@@ -61,6 +65,35 @@ class ModelTests(unittest.TestCase):
             '+----------------+\n'
             ,
             str(model.render(Hints(Size(18, 5)))))
+
+    def test_Padding(self):
+        self.maxDiff = None
+        model = Padding(Paragraph(['Hello', 'World !']), Size(4,1))
+        self.assertEqual(
+            '\n'
+            '    Hello  \n'
+            '    World !\n'
+            ,
+            str(model.render()))
+
+    def test_PaddingStacked(self):
+        self.maxDiff = None
+        model = VBox([
+            Padding(Paragraph(['Hello', 'World !']), Size(4,1)),
+            Padding(Paragraph(['Hello', 'World !']), Size(4,1))
+        ])
+
+        self.assertEqual(
+            '               \n'
+            '    Hello      \n'
+            '    World !    \n'
+            '               \n'
+            '               \n'
+            '    Hello      \n'
+            '    World !    \n'
+            '               \n'
+            ,
+            str(model.render()))
 
 
 if __name__ == '__main__':

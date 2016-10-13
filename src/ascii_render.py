@@ -1,5 +1,17 @@
 from widget import *
-from docker_config import Configuration
+from docker_config import Configuration, Container
+
+
+def build_container_widget(container: Container) -> Widget:
+    lines = []
+    if container.status == 'running':
+        statuschar = u"\u2713"
+    else:
+        statuschar = u"\u274c"
+    lines.append('[' + statuschar + '] ' + container.name)
+    lines.append('    ' + container.image)
+    container_widget = Paragraph(lines)
+    return container_widget
 
 
 class Renderer:
@@ -7,7 +19,7 @@ class Renderer:
         pass
 
     def render(self, config: Configuration):
-        root_widgets = []
+        network_widgets = []
 
         networks = set()
 
@@ -22,19 +34,20 @@ class Renderer:
             net_widgets = []
 
             for container in config.containers:
-                if net in container.networks:
-                    lines = []
+                if [net] == container.networks:
+                    container_widget = build_container_widget(container)
+                    net_widgets.append(container_widget)
 
-                    if container.status == 'running':
-                        statuschar = u"\u2713"
-                    else:
-                        statuschar = u"\u274c"
+            network_widgets.append(Border(VBox(net_widgets), net))
 
-                    lines.append('[' + statuschar + '] ' + container.name)
-                    lines.append('    ' + container.image)
-                    net_widgets.append(Paragraph(lines))
+        bridge_widgets = []
 
-            root_widgets.append(Border(VBox(net_widgets), net))
+        for container in config.containers:
+            if len(container.networks) > 1:
+                container_widget = Padding(build_container_widget(container), Size(6, 2))
+                bridge_widgets.append(container_widget)
 
-        root_box = VBox(root_widgets)
+        networks_box = VBox(network_widgets)
+        bridges_box = VBox(bridge_widgets)
+        root_box = HBox([bridges_box, networks_box])
         return str(root_box.render())

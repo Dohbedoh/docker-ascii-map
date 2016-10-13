@@ -12,8 +12,7 @@ class Raster:
             for ry in range(rastersize_y):
                 for rx in range(rastersize_x):
                     c = text.get(rx, ry)
-                    if c != ' ':
-                        self.write(x + rx, y + ry, c)
+                    self.write(x + rx, y + ry, c)
         else:
             self._expand(x + len(text), y + 1)
 
