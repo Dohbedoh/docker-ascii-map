@@ -13,8 +13,8 @@ class RenderingTests(unittest.TestCase):
 
     def test_simple_config(self):
         config = Configuration([
-            Container('n1', 'running', ['net1'], 'group1/image-long-name'),
-            Container('n2', 'stopped', ['net2'], 'group2/image-short'),
+            Container('n1', 'running', ['net1'], 'group1/image-long-name', []),
+            Container('n2', 'stopped', ['net2'], 'group2/image-short', []),
         ])
         renderer = Renderer()
 
@@ -31,9 +31,9 @@ class RenderingTests(unittest.TestCase):
 
     def test_dual_net_config(self):
         config = Configuration([
-            Container('n1', 'running', ['net1'], 'im'),
-            Container('n2', 'running', ['net2'], 'im'),
-            Container('n-front', 'running', ['net1', 'net2'], 'httpd:2.4'),
+            Container('n1', 'running', ['net1'], 'im', []),
+            Container('n2', 'running', ['net2'], 'im', []),
+            Container('n-front', 'running', ['net1', 'net2'], 'httpd:2.4', []),
         ])
         renderer = Renderer()
 
