@@ -1,7 +1,7 @@
 import unittest
 
-from docker_config import *
 from ascii_render import Renderer
+from docker_config import *
 
 
 class RenderingTests(unittest.TestCase):

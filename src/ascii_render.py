@@ -1,5 +1,5 @@
-from widget import *
 from docker_config import Configuration, Container
+from widget import *
 
 
 def build_container_widget(container: Container) -> Widget:
