@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Mapping
 
 from raster import Raster
 
@@ -15,6 +15,13 @@ class Size:
         return self.__dict__ == other.__dict__
 
 
+class Geometry(Size):
+    def __init__(self, x: int, y: int, w: int, h: int):
+        super(Geometry, self).__init__(w, h)
+        self.x = x
+        self.y = y
+
+
 class Hints:
     def __init__(self, size: Size):
         self.size = size
@@ -22,6 +29,9 @@ class Hints:
 
 class Widget:
     def render(self, hints: Hints = None) -> Raster:
+        pass
+
+    def child_geometry(self, widget: object) -> Geometry:
         pass
 
     def preferred_size(self) -> Size:
@@ -36,6 +46,7 @@ class Padding(Widget):
     def preferred_size(self) -> Size:
         nested = self._component.preferred_size()
         return Size(nested.width + self._amount.width * 2, nested.height + self._amount.height * 2)
+
 
     def render(self, hints: Hints = None) -> Raster:
         cmp_raster = self._component.render()
@@ -158,3 +169,12 @@ class Paragraph(Widget):
             r.write(0, r.size()[1], l)
 
         return r
+
+
+class Links(Widget):
+    def __init__(self, root: Widget, links: Mapping[Widget, Widget]):
+        self._root = root
+        self._links = links
+
+    def render(self, hints: Hints = None):
+        return self._root.render(hints)

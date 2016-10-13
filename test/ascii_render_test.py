@@ -30,6 +30,7 @@ class RenderingTests(unittest.TestCase):
             renderer.render(config))
 
     def test_dual_net_config(self):
+        self.maxDiff = None
         config = Configuration([
             Container('n1', 'running', ['net1'], 'im', []),
             Container('n2', 'running', ['net2'], 'im', []),
@@ -38,9 +39,18 @@ class RenderingTests(unittest.TestCase):
         renderer = Renderer()
 
         text = renderer.render(config)
-        print(text)
+        # print(text)
 
-        # self.assertEqual('', text)
+        self.assertEqual(
+            '                         +- net1 -+\n'
+            '                         | [✓] n1 |\n'
+            '      [✓] n-front        |     im |\n'
+            '          httpd:2.4      +--------+\n'
+            '                         +- net2 -+\n'
+            '                         | [✓] n2 |\n'
+            '                         |     im |\n'
+            '                         +--------+\n'
+            , text)
 
 
 if __name__ == '__main__':

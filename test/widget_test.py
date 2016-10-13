@@ -17,6 +17,14 @@ class ModelTests(unittest.TestCase):
         self.assertEqual('Size{w:2,h:3}', repr(size))
         self.assertEqual('Size{w:2,h:3}', str(size))
 
+    def test_geometry(self):
+        geom = Geometry(0,1,2, 3)
+        self.assertEqual(2, geom.width)
+        self.assertEqual(3, geom.height)
+        self.assertEqual(0, geom.x)
+        self.assertEqual(1, geom.y)
+
+
     def test_paragraph(self):
         model = Paragraph(['Hello', 'World !'])
         self.assertEqual('Hello\nWorld !\n', str(model.render()))
@@ -68,7 +76,7 @@ class ModelTests(unittest.TestCase):
 
     def test_Padding(self):
         self.maxDiff = None
-        model = Padding(Paragraph(['Hello', 'World !']), Size(4,1))
+        model = Padding(Paragraph(['Hello', 'World !']), Size(4, 1))
         self.assertEqual(
             '\n'
             '    Hello  \n'
@@ -79,8 +87,8 @@ class ModelTests(unittest.TestCase):
     def test_PaddingStacked(self):
         self.maxDiff = None
         model = VBox([
-            Padding(Paragraph(['Hello', 'World !']), Size(4,1)),
-            Padding(Paragraph(['Hello', 'World !']), Size(4,1))
+            Padding(Paragraph(['Hello', 'World !']), Size(4, 1)),
+            Padding(Paragraph(['Hello', 'World !']), Size(4, 1))
         ])
 
         self.assertEqual(
@@ -95,6 +103,15 @@ class ModelTests(unittest.TestCase):
             ,
             str(model.render()))
 
+    def test_Links(self):
+        w1 = Paragraph(['Hello', 'World !'])
+        w2 = Paragraph(['Hello', 'World !'])
+        model = Links(HBox([
+            Padding(w1, Size(4, 1)),
+            Padding(w2, Size(12, 3))
+        ]), {w1: w2})
 
-if __name__ == '__main__':
-    unittest.main()
+        # print(str(model.render()))
+
+        if __name__ == '__main__':
+            unittest.main()
