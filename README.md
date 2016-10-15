@@ -16,8 +16,8 @@ alcibiade@mobydick:~/docker-ascii-map$ python3 src/docker-ascii-map.py
  
                                                    +- chesscorp_default ----------------+
                                                    | [✓] chesscorp_web_1                |
-80 ]------------  [✓] frontend_httpd_1 ------+     |     chesscorp/chess-club           |
-                      httpd:2.4              +-----| [✓] chesscorp_database_1           |
+80 ]------------  [✓] frontend_httpd_1 ------+-----|     chesscorp/chess-club           |
+                      httpd:2.4              |     | [✓] chesscorp_database_1           |
                                              |     |     postgres:9.5                   |
                                              |     | [✓] chesscorp_mail_1               |
                                              |     |     namshi/smtp                    |
