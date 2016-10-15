@@ -41,6 +41,10 @@ class ConfigParser:
 
         for cinfo in self._client.containers(all=True):
             name = cinfo['Names'][0]
+
+            if name[0] == '/':
+                name = name[1:]
+
             status = cinfo['State']
             image = cinfo['Image']
             networks = [n for n in cinfo['NetworkSettings']['Networks'].keys()]
