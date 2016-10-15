@@ -30,6 +30,8 @@ class Renderer:
         networks = list(networks)
         networks.sort()
 
+        net_widgets_map = {}
+
         for net in networks:
             net_widgets = []
 
@@ -38,16 +40,24 @@ class Renderer:
                     container_widget = build_container_widget(container)
                     net_widgets.append(container_widget)
 
-            network_widgets.append(Border(VBox(net_widgets), net))
+            net_box = Border(VBox(net_widgets), net)
+            net_widgets_map[net] = net_box
+            network_widgets.append(net_box)
 
         bridge_widgets = []
+        links = []
 
         for container in config.containers:
             if len(container.networks) > 1:
-                container_widget = Padding(build_container_widget(container), Size(6, 2))
-                bridge_widgets.append(container_widget)
+                c = Padding(build_container_widget(container), Size(1,0))
+                padded = Padding(c, Size(12, 2))
+                bridge_widgets.append(padded)
+
+                for n in container.networks:
+                    net_box = net_widgets_map[n]
+                    links.append((c, net_box))
 
         networks_box = VBox(network_widgets)
         bridges_box = VBox(bridge_widgets)
-        root_box = HBox([bridges_box, networks_box])
+        root_box = Links(HBox([bridges_box, networks_box]), links)
         return str(root_box.render())

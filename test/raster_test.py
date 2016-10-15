@@ -1,6 +1,6 @@
 import unittest
 
-from raster import Raster
+from raster import Raster, Boundary
 
 
 class RasterTests(unittest.TestCase):
@@ -8,7 +8,20 @@ class RasterTests(unittest.TestCase):
         raster = Raster()
         self.assertEqual('', str(raster))
         self.assertEqual((0, 0), raster.size())
-        self.assertEqual(' ', raster.get(5,4))
+        self.assertEqual((' ', None), raster.get(5, 4))
+
+    def test_expansion(self):
+        raster = Raster()
+        raster.write(8, 0, ' ')
+        raster.write(0, 4, ' ')
+        self.assertEqual(
+            '         \n'
+            '\n'
+            '\n'
+            '\n'
+            ' \n'
+            , str(raster)
+        )
 
     def test_basic_raster(self):
         raster = Raster()
@@ -31,15 +44,29 @@ class RasterTests(unittest.TestCase):
 
     def test_write_raster(self):
         r1 = Raster()
-        r1.write(0, 0, 'Hello')
+        r1.write(0, 0, 'Hello', r1)
         r2 = Raster()
-        r2.write(0, 0, 'World !')
+        r2.write(0, 0, 'World !', r2)
 
         r = Raster()
         r.write(0, 0, r1)
         r.write(2, 1, r2)
         self.assertEqual('Hello\n  World !\n', str(r))
         self.assertEqual((9, 2), r.size())
+
+    def test_boundaries(self):
+        r = Raster()
+        r.write(4, 2, 'Hello', 'Origin1')
+        r.write(4, 3, 'Hello', 'Origin1')
+        r.write(4, 4, 'World', 'Origin2')
+
+        self.assertEqual('4,2 5x2', str(r.origin_bounds('Origin1')))
+        self.assertEqual('4,4 5x1', str(r.origin_bounds('Origin2')))
+        self.assertEqual(None, r.origin_bounds('Origin3'))
+
+    def test_boundary(self):
+        self.assertEqual('4,2 5x2', str(Boundary(4, 2, 5, 2)))
+        self.assertEqual(Boundary(4, 2, 5, 2), Boundary(4, 2, 5, 2))
 
 
 if __name__ == '__main__':

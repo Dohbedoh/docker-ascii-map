@@ -42,14 +42,14 @@ class RenderingTests(unittest.TestCase):
         # print(text)
 
         self.assertEqual(
-            '                         +- net1 -+\n'
-            '                         | [✓] n1 |\n'
-            '      [✓] n-front        |     im |\n'
-            '          httpd:2.4      +--------+\n'
-            '                         +- net2 -+\n'
-            '                         | [✓] n2 |\n'
-            '                         |     im |\n'
-            '                         +--------+\n'
+            '                                       +- net1 -+\n'
+            '                                       | [✓] n1 |\n'
+            '             [✓] n-front         +-----|     im |\n'
+            '                 httpd:2.4 ------+     +--------+\n'
+            '                                 |     +- net2 -+\n'
+            '                                 |     | [✓] n2 |\n'
+            '                                 +-----|     im |\n'
+            '                                       +--------+\n'
             , text)
 
 

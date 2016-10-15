@@ -1,5 +1,6 @@
 import unittest
 
+from raster import Boundary
 from widget import *
 
 
@@ -17,17 +18,11 @@ class ModelTests(unittest.TestCase):
         self.assertEqual('Size{w:2,h:3}', repr(size))
         self.assertEqual('Size{w:2,h:3}', str(size))
 
-    def test_geometry(self):
-        geom = Geometry(0,1,2, 3)
-        self.assertEqual(2, geom.width)
-        self.assertEqual(3, geom.height)
-        self.assertEqual(0, geom.x)
-        self.assertEqual(1, geom.y)
-
-
     def test_paragraph(self):
         model = Paragraph(['Hello', 'World !'])
-        self.assertEqual('Hello\nWorld !\n', str(model.render()))
+        raster = model.render()
+        self.assertEqual('Hello\nWorld !\n', str(raster))
+        self.assertEqual('0,0 7x2', str(raster.origin_bounds(model)))
 
     def test_VBox(self):
         model = VBox([Paragraph(['Hello', 'World !']), Paragraph(['Python rules !'])])
@@ -78,11 +73,20 @@ class ModelTests(unittest.TestCase):
         self.maxDiff = None
         model = Padding(Paragraph(['Hello', 'World !']), Size(4, 1))
         self.assertEqual(
-            '\n'
-            '    Hello  \n'
-            '    World !\n'
+            '               \n'
+            '    Hello      \n'
+            '    World !    \n'
+            '               \n'
             ,
             str(model.render()))
+
+    def test_Padding_Origin(self):
+        self.maxDiff = None
+        paragraph = Paragraph(['Hello', 'World !'])
+        padding = Padding(paragraph, Size(4, 1))
+        raster = padding.render()
+        self.assertEqual(Boundary(4, 1, 7, 2), raster.origin_bounds(paragraph))
+        self.assertEqual(Boundary(0, 0, 15, 4), raster.origin_bounds(padding))
 
     def test_PaddingStacked(self):
         self.maxDiff = None
@@ -103,15 +107,47 @@ class ModelTests(unittest.TestCase):
             ,
             str(model.render()))
 
-    def test_Links(self):
+    def test_Links_Down(self):
+        self.maxDiff = None
         w1 = Paragraph(['Hello', 'World !'])
         w2 = Paragraph(['Hello', 'World !'])
         model = Links(HBox([
             Padding(w1, Size(4, 1)),
             Padding(w2, Size(12, 3))
-        ]), {w1: w2})
+        ]), [(w1, w2)])
 
-        # print(str(model.render()))
+        self.assertEqual(
+            '                                              \n'
+            '    Hello                                     \n'
+            '    World !--------+                          \n'
+            '                   |       Hello              \n'
+            '                   +-------World !            \n'
+            '                                              \n'
+            '                                              \n'
+            '                                              \n'
+            , str(model.render()))
 
-        if __name__ == '__main__':
-            unittest.main()
+    def test_Links_Up(self):
+        w1 = Paragraph(['Hello', 'World !'])
+        w2 = Paragraph(['Hello', 'World !'])
+        model = Links(HBox([
+            Padding(w1, Size(4, 4)),
+            Padding(w2, Size(12, 1))
+        ]), [(w1, w2)])
+
+        self.assertEqual(
+            '                                              \n'
+            '                           Hello              \n'
+            '                   +-------World !            \n'
+            '                   |                          \n'
+            '    Hello          |\n'
+            '    World !--------+\n'
+            '               \n'
+            '               \n'
+            '               \n'
+            '               \n'
+            , str(model.render()))
+
+
+if __name__ == '__main__':
+    unittest.main()
