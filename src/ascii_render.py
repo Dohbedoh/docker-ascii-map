@@ -74,6 +74,7 @@ class Renderer:
         for container in config.containers:
             if len(container.networks) > 1:
                 c = Padding(build_container_widget(container), Size(1, 0))
+                cnt_widgets_map[container] = c
                 padded = Padding(c, Size(12, 2))
                 bridge_widgets.append(padded)
 
