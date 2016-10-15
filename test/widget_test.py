@@ -190,7 +190,7 @@ class ModelTests(unittest.TestCase):
         model = Annotations(VBox([
             Padding(w1, Size(4, 4)),
             Padding(w2, Size(12, 1))
-        ]), [(w2, '8080')])
+        ]), [(w2, '8080'), (w2, '  22')])
 
         self.assertEqual(Size(38, 14), model.preferred_size())
 
@@ -207,7 +207,7 @@ class ModelTests(unittest.TestCase):
             '                                      \n'
             '                                      \n'
             '8080 ]------------ Hello              \n'
-            '                   World !            \n'
+            '  22 ]------------ World !            \n'
             '                                      \n'
             , str(model.render())
         )

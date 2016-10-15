@@ -205,9 +205,12 @@ class Annotations(Widget):
         raster = Raster()
         raster.write(self._width, 0, self._content.render(hints))
 
+        offset_y = 0
+
         for widget, annotation_text in self._annotations:
             bounds = raster.origin_bounds(widget)
-            y = int(bounds.y + bounds.h / 2) - 1
+            y = int(bounds.y + bounds.h / 2) - 1 + offset_y
+            offset_y += 1
             raster.write(0, y, annotation_text)
             raster.write(self._width, y, ' ]-')
             raster.draw_line(self._width + 3, y, bounds.x - 1, y)

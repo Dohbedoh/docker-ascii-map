@@ -34,8 +34,6 @@ def build_ordered_network_list(config):
                 base_index += 1
                 networks.insert(base_index, net)
 
-    # print(config, networks)
-
     return networks
 
 

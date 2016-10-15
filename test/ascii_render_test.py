@@ -102,6 +102,32 @@ class RenderingTests(unittest.TestCase):
             '     +--------+\n'
             , text)
 
+    def test_port_map_multiple(self):
+        self.maxDiff = None
+        config = Configuration([
+            Container('n1', 'running', ['net1'], 'im', []),
+            Container('n2', 'running', ['net2'], 'im',
+                      [
+                          PortMapping(private_port=8080, public_port=80),
+                          PortMapping(private_port=22, public_port=22)
+                      ]),
+        ])
+        renderer = Renderer()
+
+        text = renderer.render(config)
+        # print(text)
+
+        self.assertEqual(
+            '     +- net1 -+\n'
+            '     | [✓] n1 |\n'
+            '     |     im |\n'
+            '     +--------+\n'
+            '     +- net2 -+\n'
+            '80 ]-+ [✓] n2 |\n'
+            '22 ]-+     im |\n'
+            '     +--------+\n'
+            , text)
+
 
 if __name__ == '__main__':
     unittest.main()
