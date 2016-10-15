@@ -175,6 +175,8 @@ class ModelTests(unittest.TestCase):
             Padding(w2, Size(12, 1))
         ]), [(w2, '8080')])
 
+        self.assertEqual(Size(38, 14), model.preferred_size())
+
         self.assertEqual(
             '                                      \n'
             '                                      \n'
@@ -187,7 +189,7 @@ class ModelTests(unittest.TestCase):
             '                                      \n'
             '                                      \n'
             '                                      \n'
-            '8080 |------------ Hello              \n'
+            '8080 ]------------ Hello              \n'
             '                   World !            \n'
             '                                      \n'
             , str(model.render())

@@ -97,7 +97,7 @@ class RenderingTests(unittest.TestCase):
             '     |     im |\n'
             '     +--------+\n'
             '     +- net2 -+\n'
-            '80 |-- [✓] n2 |\n'
+            '80 ]-+ [✓] n2 |\n'
             '     |     im |\n'
             '     +--------+\n'
             , text)

@@ -39,7 +39,10 @@ class Raster:
 
         for x in range(src_x, dst_x):
             y = src_y if x < med_x else dst_y
-            self.write(x, y, '-')
+            if self.get(x,y)[0] == '|':
+                self.write(x, y, '+')
+            else:
+                self.write(x, y, '-')
 
         for y in range(min(src_y, dst_y), max(src_y, dst_y)):
             if self.get(med_x, y)[0] != '+':
