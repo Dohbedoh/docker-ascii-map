@@ -43,8 +43,8 @@ class RenderingTests(unittest.TestCase):
 
         self.assertEqual(
             '                                       +- net1 -+\n'
-            '                                 +-----| [✓] n1 |\n'
-            '             [✓] n-front   ------+     |     im |\n'
+            '                                       | [✓] n1 |\n'
+            '             [✓] n-front   ------+-----|     im |\n'
             '                 httpd:2.4       |     +--------+\n'
             '                                 |     +- net2 -+\n'
             '                                 +-----| [✓] n2 |\n'
@@ -67,8 +67,8 @@ class RenderingTests(unittest.TestCase):
 
         self.assertEqual(
             '                                       +- net1 -+\n'
-            '                                 +-----| [✓] n1 |\n'
-            '             [✓] n-front   ------+     |     im |\n'
+            '                                       | [✓] n1 |\n'
+            '             [✓] n-front   ------+-----|     im |\n'
             '                 httpd:2.4       |     +--------+\n'
             '                                 |     +- net3 -+\n'
             '                                 +-----| [✓] n3 |\n'

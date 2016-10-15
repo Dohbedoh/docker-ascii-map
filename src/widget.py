@@ -180,7 +180,12 @@ class Links(Widget):
             src_x = bounds_src.x + bounds_src.w
             src_y = int(bounds_src.y + bounds_src.h / 2) - 1
             dst_x = bounds_dst.x
-            dst_y = int(bounds_dst.y + bounds_dst.h / 2) - 1
+
+            if src_y in range(bounds_dst.y, bounds_dst.y + bounds_dst.h):
+                dst_y = src_y
+            else:
+                dst_y = int(bounds_dst.y + bounds_dst.h / 2) - 1
+
             raster.draw_line(src_x, src_y, dst_x, dst_y)
 
         return raster

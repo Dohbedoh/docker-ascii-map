@@ -166,6 +166,23 @@ class ModelTests(unittest.TestCase):
             '               \n'
             , str(model.render()))
 
+    def test_Links_Straight(self):
+        w1 = Paragraph(['Hello', 'World !'])
+        w2 = Paragraph(['Hello', 'World !'])
+        model = Links(HBox([
+            Padding(w1, Size(4, 2)),
+            Padding(w2, Size(12, 1))
+        ]), [(w1, w2)])
+
+        self.assertEqual(
+            '                                              \n'
+            '                           Hello              \n'
+            '    Hello  ----------------World !            \n'
+            '    World !                                   \n'
+            '               \n'
+            '               \n'
+            , str(model.render()))
+
     def test_Annotation(self):
         self.maxDiff = None
         w1 = Paragraph(['Hello', 'World !'])
