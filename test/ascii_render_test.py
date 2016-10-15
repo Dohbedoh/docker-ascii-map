@@ -52,6 +52,34 @@ class RenderingTests(unittest.TestCase):
             '                                       +--------+\n'
             , text)
 
+    def test_dual_net_sort(self):
+        self.maxDiff = None
+        config = Configuration([
+            Container('n1', 'running', ['net1'], 'im', []),
+            Container('n2', 'running', ['net2'], 'im', []),
+            Container('n3', 'running', ['net3'], 'im', []),
+            Container('n-front', 'running', ['net1', 'net3'], 'httpd:2.4', []),
+        ])
+        renderer = Renderer()
+
+        text = renderer.render(config)
+        # print(text)
+
+        self.assertEqual(
+            '                                       +- net1 -+\n'
+            '                                       | [✓] n1 |\n'
+            '             [✓] n-front         +-----|     im |\n'
+            '                 httpd:2.4 ------+     +--------+\n'
+            '                                 |     +- net3 -+\n'
+            '                                 |     | [✓] n3 |\n'
+            '                                 +-----|     im |\n'
+            '                                       +--------+\n'
+            '                                       +- net2 -+\n'
+            '                                       | [✓] n2 |\n'
+            '                                       |     im |\n'
+            '                                       +--------+\n'
+            , text)
+
     def test_port_map(self):
         self.maxDiff = None
         config = Configuration([
@@ -61,7 +89,7 @@ class RenderingTests(unittest.TestCase):
         renderer = Renderer()
 
         text = renderer.render(config)
-        print(text)
+        # print(text)
 
         # self.assertEqual(
         #     '                                       +- net1 -+\n'

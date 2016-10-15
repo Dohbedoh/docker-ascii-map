@@ -21,14 +21,7 @@ class Renderer:
     def render(self, config: Configuration):
         network_widgets = []
 
-        networks = set()
-
-        for container in config.containers:
-            for net in container.networks:
-                networks.add(net)
-
-        networks = list(networks)
-        networks.sort()
+        networks = self._build_ordered_network_list(config)
 
         net_widgets_map = {}
 
@@ -65,3 +58,27 @@ class Renderer:
 
         root_box = HBox([links_box])
         return str(root_box.render())
+
+    def _build_ordered_network_list(self, config):
+        networks = set()
+
+        for container in config.containers:
+            for net in container.networks:
+                networks.add(net)
+
+        networks = list(networks)
+        networks.sort()
+
+        # Networks are sorted, now group the ones linked by containers
+
+        for container in config.containers:
+            if len(container.networks)>1:
+                base_index = networks.index(container.networks[0])
+                for net in container.networks[1:]:
+                    networks.remove(net)
+                    base_index += 1
+                    networks.insert(base_index, net)
+
+        # print(config, networks)
+
+        return networks
