@@ -34,6 +34,21 @@ class Raster:
             for i in range(len(text)):
                 self._cells[y][x + i] = text[i], origin
 
+    def draw_line(self, src_x, src_y, dst_x, dst_y):
+        med_x = int((src_x + dst_x) / 2)
+
+        for x in range(src_x, dst_x):
+            y = src_y if x < med_x else dst_y
+            self.write(x, y, '-')
+
+        for y in range(min(src_y, dst_y), max(src_y, dst_y)):
+            if self.get(med_x, y)[0] != '+':
+                self.write(med_x, y, '|')
+
+        if src_y != dst_y:
+            self.write(med_x, src_y, '+')
+            self.write(med_x, dst_y, '+')
+
     def _expand(self, x, y):
         while len(self._cells) < y:
             self._cells.append([])

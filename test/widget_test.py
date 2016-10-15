@@ -21,7 +21,10 @@ class ModelTests(unittest.TestCase):
     def test_paragraph(self):
         model = Paragraph(['Hello', 'World !'])
         raster = model.render()
-        self.assertEqual('Hello\nWorld !\n', str(raster))
+        self.assertEqual(
+            'Hello\n'
+            'World !\n',
+            str(raster))
         self.assertEqual('0,0 7x2', str(raster.origin_bounds(model)))
 
     def test_VBox(self):
@@ -46,7 +49,10 @@ class ModelTests(unittest.TestCase):
 
     def test_HBox(self):
         model = HBox([Paragraph(['Hello', 'World !']), Paragraph(['Python rules !'])])
-        self.assertEqual('Hello  Python rules !\nWorld !\n', str(model.render()))
+        self.assertEqual(
+            'Hello  Python rules !\n'
+            'World !\n',
+            str(model.render()))
         self.assertEqual(Size(21, 2), model.preferred_size())
 
     def test_Border_WithoutTitle(self):
@@ -159,6 +165,33 @@ class ModelTests(unittest.TestCase):
             '               \n'
             '               \n'
             , str(model.render()))
+
+    def test_Annotation(self):
+        self.maxDiff = None
+        w1 = Paragraph(['Hello', 'World !'])
+        w2 = Paragraph(['Hello', 'World !'])
+        model = Annotations(VBox([
+            Padding(w1, Size(4, 4)),
+            Padding(w2, Size(12, 1))
+        ]), [(w2, '8080')])
+
+        self.assertEqual(
+            '                                      \n'
+            '                                      \n'
+            '                                      \n'
+            '                                      \n'
+            '           Hello                      \n'
+            '           World !                    \n'
+            '                                      \n'
+            '                                      \n'
+            '                                      \n'
+            '                                      \n'
+            '                                      \n'
+            '                   Hello              \n'
+            '8080 |------------ World !            \n'
+            '                                      \n'
+            , str(model.render())
+        )
 
 
 if __name__ == '__main__':

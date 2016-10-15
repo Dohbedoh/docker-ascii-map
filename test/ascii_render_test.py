@@ -91,16 +91,16 @@ class RenderingTests(unittest.TestCase):
         text = renderer.render(config)
         # print(text)
 
-        # self.assertEqual(
-        #     '                                       +- net1 -+\n'
-        #     '                                       | [✓] n1 |\n'
-        #     '             [✓] n-front         +-----|     im |\n'
-        #     '                 httpd:2.4 ------+     +--------+\n'
-        #     '                                 |     +- net2 -+\n'
-        #     '                                 |     | [✓] n2 |\n'
-        #     '                                 +-----|     im |\n'
-        #     '                                       +--------+\n'
-        #     , text)
+        self.assertEqual(
+            '     +- net1 -+\n'
+            '     | [✓] n1 |\n'
+            '     |     im |\n'
+            '     +--------+\n'
+            '     +- net2 -+\n'
+            '     | [✓] n2 |\n'
+            '80 |--     im |\n'
+            '     +--------+\n'
+            , text)
 
 
 if __name__ == '__main__':

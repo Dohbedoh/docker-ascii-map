@@ -68,6 +68,38 @@ class RasterTests(unittest.TestCase):
         self.assertEqual('4,2 5x2', str(Boundary(4, 2, 5, 2)))
         self.assertEqual(Boundary(4, 2, 5, 2), Boundary(4, 2, 5, 2))
 
+    def test_line_horizontal(self):
+        r = Raster()
+        r.draw_line(0, 0, 4, 0)
+        self.assertEqual(
+            '----\n',
+            str(r)
+        )
+
+    def test_line_up(self):
+        r = Raster()
+        r.draw_line(0, 3, 6, 0)
+        self.assertEqual(
+            '   +--\n'
+            '   |\n'
+            '   |\n'
+            '---+\n'
+            , str(r)
+        )
+
+
+    def test_line_overlap(self):
+        r = Raster()
+        r.draw_line(0, 3, 6, 2)
+        r.draw_line(0, 3, 6, 0)
+        self.assertEqual(
+            '   +--\n'
+            '   |\n'
+            '   +--\n'
+            '---+\n'
+            , str(r)
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

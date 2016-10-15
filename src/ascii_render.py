@@ -14,6 +14,31 @@ def build_container_widget(container: Container) -> Widget:
     return container_widget
 
 
+def build_ordered_network_list(config):
+    networks = set()
+
+    for container in config.containers:
+        for net in container.networks:
+            networks.add(net)
+
+    networks = list(networks)
+    networks.sort()
+
+    # Networks are sorted, now group the ones linked by containers
+
+    for container in config.containers:
+        if len(container.networks) > 1:
+            base_index = networks.index(container.networks[0])
+            for net in container.networks[1:]:
+                networks.remove(net)
+                base_index += 1
+                networks.insert(base_index, net)
+
+    # print(config, networks)
+
+    return networks
+
+
 class Renderer:
     def __init__(self):
         pass
@@ -21,9 +46,12 @@ class Renderer:
     def render(self, config: Configuration):
         network_widgets = []
 
-        networks = self._build_ordered_network_list(config)
+        networks = build_ordered_network_list(config)
 
         net_widgets_map = {}
+        cnt_widgets_map = {}
+
+        # Network boxes with single-network containers
 
         for net in networks:
             net_widgets = []
@@ -31,18 +59,21 @@ class Renderer:
             for container in config.containers:
                 if [net] == container.networks:
                     container_widget = build_container_widget(container)
+                    cnt_widgets_map[container] = container_widget
                     net_widgets.append(container_widget)
 
             net_box = Border(VBox(net_widgets), net)
             net_widgets_map[net] = net_box
             network_widgets.append(net_box)
 
+        # Containers connected to multiple networks
+
         bridge_widgets = []
         links = []
 
         for container in config.containers:
             if len(container.networks) > 1:
-                c = Padding(build_container_widget(container), Size(1,0))
+                c = Padding(build_container_widget(container), Size(1, 0))
                 padded = Padding(c, Size(12, 2))
                 bridge_widgets.append(padded)
 
@@ -56,29 +87,14 @@ class Renderer:
 
         # Port mapping
 
-        root_box = HBox([links_box])
+        portmaps = []
+
+        for container in config.containers:
+            for port in container.ports:
+                w = cnt_widgets_map[container]
+                portmaps.append((w, str(port.public_port)))
+
+        ports_box = Annotations(links_box, portmaps)
+
+        root_box = ports_box
         return str(root_box.render())
-
-    def _build_ordered_network_list(self, config):
-        networks = set()
-
-        for container in config.containers:
-            for net in container.networks:
-                networks.add(net)
-
-        networks = list(networks)
-        networks.sort()
-
-        # Networks are sorted, now group the ones linked by containers
-
-        for container in config.containers:
-            if len(container.networks)>1:
-                base_index = networks.index(container.networks[0])
-                for net in container.networks[1:]:
-                    networks.remove(net)
-                    base_index += 1
-                    networks.insert(base_index, net)
-
-        # print(config, networks)
-
-        return networks

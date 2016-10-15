@@ -168,6 +168,9 @@ class Links(Widget):
         self._root = root
         self._links = links
 
+    def preferred_size(self) -> Size:
+        return self._root.preferred_size()
+
     def render(self, hints: Hints = None):
         raster = self._root.render(hints)
 
@@ -178,16 +181,30 @@ class Links(Widget):
             src_y = int(bounds_src.y + bounds_src.h / 2)
             dst_x = bounds_dst.x
             dst_y = int(bounds_dst.y + bounds_dst.h / 2)
-            med_x = int((src_x + dst_x) / 2)
+            raster.draw_line(src_x, src_y, dst_x, dst_y)
 
-            for x in range(src_x, dst_x):
-                y = src_y if x < med_x else dst_y
-                raster.write(x, y, '-')
+        return raster
 
-            for y in range(min(src_y, dst_y), max(src_y, dst_y)):
-                raster.write(med_x, y, '|')
 
-            raster.write(med_x, src_y, '+')
-            raster.write(med_x, dst_y, '+')
+class Annotations(Widget):
+    def __init__(self, content: Widget, annotations: List[Tuple[Widget, str]]):
+        self._content = Padding(content, Size(3, 0), Size(0, 0)) if len(annotations) > 0 else content
+        self._annotations = annotations
+        self._width = max([0] + [len(a[1]) for a in annotations])
+
+    def preferred_size(self) -> Size:
+        content_size = self._content.preferred_size()
+        return Size(content_size.width + self._width, content_size.height)
+
+    def render(self, hints: Hints = None):
+        raster = Raster()
+        raster.write(self._width, 0, self._content.render(hints))
+
+        for widget, annotation_text in self._annotations:
+            bounds = raster.origin_bounds(widget)
+            y = int(bounds.y + bounds.h / 2)
+            raster.write(0, y, annotation_text)
+            raster.write(self._width, y, ' |-')
+            raster.draw_line(self._width + 3, y, bounds.x - 1, y)
 
         return raster
