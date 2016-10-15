@@ -59,5 +59,9 @@ class Renderer:
 
         networks_box = VBox(network_widgets)
         bridges_box = VBox(bridge_widgets)
-        root_box = Links(HBox([bridges_box, networks_box]), links)
+        links_box = Links(HBox([bridges_box, networks_box]), links)
+
+        # Port mapping
+
+        root_box = HBox([links_box])
         return str(root_box.render())

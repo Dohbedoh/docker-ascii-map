@@ -1,4 +1,4 @@
-from typing import List, Mapping, Tuple
+from typing import List, Tuple
 
 from raster import Raster
 
@@ -29,24 +29,26 @@ class Widget:
 
 
 class Padding(Widget):
-    def __init__(self, component: Widget, amount: Size):
+    def __init__(self, component: Widget, amount_tl: Size, amount_br: Size = None):
         self._component = component
-        self._amount = amount
+        self._amount_tl = amount_tl
+        self._amount_br = amount_br if amount_br is not None else amount_tl
 
     def preferred_size(self) -> Size:
         nested = self._component.preferred_size()
-        return Size(nested.width + self._amount.width * 2, nested.height + self._amount.height * 2)
+        return Size(nested.width + self._amount_tl.width + self._amount_br.width,
+                    nested.height + self._amount_tl.height + self._amount_br.height)
 
     def render(self, hints: Hints = None) -> Raster:
         r = Raster()
-        nested = self._component.preferred_size()
+        wrapper_size = self.preferred_size()
 
-        for y in range(nested.height + 2 * self._amount.height):
-            for x in range(nested.width + 2 * self._amount.width):
+        for y in range(wrapper_size.height):
+            for x in range(wrapper_size.width):
                 r.write(x, y, ' ', self)
 
         cmp_raster = self._component.render()
-        r.write(self._amount.width, self._amount.height, cmp_raster)
+        r.write(self._amount_tl.width, self._amount_tl.height, cmp_raster)
 
         return r
 
@@ -162,7 +164,7 @@ class Paragraph(Widget):
 
 
 class Links(Widget):
-    def __init__(self, root: Widget, links: List[Tuple[Widget]]):
+    def __init__(self, root: Widget, links: List[Tuple[Widget, Widget]]):
         self._root = root
         self._links = links
 

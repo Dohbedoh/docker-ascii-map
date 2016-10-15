@@ -80,6 +80,18 @@ class ModelTests(unittest.TestCase):
             ,
             str(model.render()))
 
+    def test_Padding_4(self):
+        self.maxDiff = None
+        model = Padding(Paragraph(['Hello', 'World !']), Size(4, 1), Size(1, 2))
+        self.assertEqual(
+            '            \n'
+            '    Hello   \n'
+            '    World ! \n'
+            '            \n'
+            '            \n'
+            ,
+            str(model.render()))
+
     def test_Padding_Origin(self):
         self.maxDiff = None
         paragraph = Paragraph(['Hello', 'World !'])
