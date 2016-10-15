@@ -48,6 +48,7 @@ class ConfigParser:
             status = cinfo['State']
             image = cinfo['Image']
             networks = [n for n in cinfo['NetworkSettings']['Networks'].keys()]
+            networks.sort()
             ports = [PortMapping(p['PrivatePort'], p['PublicPort']) for p in cinfo['Ports'] if 'PublicPort' in p.keys()]
             containers.append(Container(name, status, networks, image, ports))
 
