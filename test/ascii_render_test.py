@@ -43,12 +43,12 @@ class RenderingTests(unittest.TestCase):
 
         self.assertEqual(
             '                                       +- net1 -+\n'
-            '                                       | [✓] n1 |\n'
-            '             [✓] n-front         +-----|     im |\n'
-            '                 httpd:2.4 ------+     +--------+\n'
+            '                                 +-----| [✓] n1 |\n'
+            '             [✓] n-front   ------+     |     im |\n'
+            '                 httpd:2.4       |     +--------+\n'
             '                                 |     +- net2 -+\n'
-            '                                 |     | [✓] n2 |\n'
-            '                                 +-----|     im |\n'
+            '                                 +-----| [✓] n2 |\n'
+            '                                       |     im |\n'
             '                                       +--------+\n'
             , text)
 
@@ -67,12 +67,12 @@ class RenderingTests(unittest.TestCase):
 
         self.assertEqual(
             '                                       +- net1 -+\n'
-            '                                       | [✓] n1 |\n'
-            '             [✓] n-front         +-----|     im |\n'
-            '                 httpd:2.4 ------+     +--------+\n'
+            '                                 +-----| [✓] n1 |\n'
+            '             [✓] n-front   ------+     |     im |\n'
+            '                 httpd:2.4       |     +--------+\n'
             '                                 |     +- net3 -+\n'
-            '                                 |     | [✓] n3 |\n'
-            '                                 +-----|     im |\n'
+            '                                 +-----| [✓] n3 |\n'
+            '                                       |     im |\n'
             '                                       +--------+\n'
             '                                       +- net2 -+\n'
             '                                       | [✓] n2 |\n'
@@ -97,8 +97,8 @@ class RenderingTests(unittest.TestCase):
             '     |     im |\n'
             '     +--------+\n'
             '     +- net2 -+\n'
-            '     | [✓] n2 |\n'
-            '80 |--     im |\n'
+            '80 |-- [✓] n2 |\n'
+            '     |     im |\n'
             '     +--------+\n'
             , text)
 

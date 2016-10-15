@@ -136,10 +136,10 @@ class ModelTests(unittest.TestCase):
 
         self.assertEqual(
             '                                              \n'
-            '    Hello                                     \n'
-            '    World !--------+                          \n'
-            '                   |       Hello              \n'
-            '                   +-------World !            \n'
+            '    Hello  --------+                          \n'
+            '    World !        |                          \n'
+            '                   +-------Hello              \n'
+            '                           World !            \n'
             '                                              \n'
             '                                              \n'
             '                                              \n'
@@ -155,11 +155,11 @@ class ModelTests(unittest.TestCase):
 
         self.assertEqual(
             '                                              \n'
-            '                           Hello              \n'
-            '                   +-------World !            \n'
+            '                   +-------Hello              \n'
+            '                   |       World !            \n'
             '                   |                          \n'
-            '    Hello          |\n'
-            '    World !--------+\n'
+            '    Hello  --------+\n'
+            '    World !    \n'
             '               \n'
             '               \n'
             '               \n'
@@ -187,8 +187,8 @@ class ModelTests(unittest.TestCase):
             '                                      \n'
             '                                      \n'
             '                                      \n'
-            '                   Hello              \n'
-            '8080 |------------ World !            \n'
+            '8080 |------------ Hello              \n'
+            '                   World !            \n'
             '                                      \n'
             , str(model.render())
         )

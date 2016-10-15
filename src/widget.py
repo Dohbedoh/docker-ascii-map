@@ -178,9 +178,9 @@ class Links(Widget):
             bounds_src = raster.origin_bounds(w_src)
             bounds_dst = raster.origin_bounds(w_dst)
             src_x = bounds_src.x + bounds_src.w
-            src_y = int(bounds_src.y + bounds_src.h / 2)
+            src_y = int(bounds_src.y + bounds_src.h / 2) - 1
             dst_x = bounds_dst.x
-            dst_y = int(bounds_dst.y + bounds_dst.h / 2)
+            dst_y = int(bounds_dst.y + bounds_dst.h / 2) - 1
             raster.draw_line(src_x, src_y, dst_x, dst_y)
 
         return raster
@@ -202,7 +202,7 @@ class Annotations(Widget):
 
         for widget, annotation_text in self._annotations:
             bounds = raster.origin_bounds(widget)
-            y = int(bounds.y + bounds.h / 2)
+            y = int(bounds.y + bounds.h / 2) - 1
             raster.write(0, y, annotation_text)
             raster.write(self._width, y, ' |-')
             raster.draw_line(self._width + 3, y, bounds.x - 1, y)
