@@ -6,13 +6,27 @@ A set of python scripts displaying the local docker containers structure and sta
 * python 3.5
 * docker-py
 
+## Install
+
+You can install this tool from PyPI:
+
+```
+alcibiade@mobydick:~$ sudo pip3 install docker-ascii-map
+Collecting docker-ascii-map
+  Downloading docker-ascii-map-0.1.tar.gz
+Installing collected packages: docker-ascii-map
+  Running setup.py install for docker-ascii-map ... done
+Successfully installed docker-ascii-map-0.1
+
+```
+
 ## Usage
 
 Below is a sample of a host running several applications on multiple networks. 
 A container is routing traffic to these networks from the host.
 
 ```
-alcibiade@mobydick:~/docker-ascii-map$ python3 src/docker-ascii-map.py
+alcibiade@mobydick:~/docker-ascii-map$ docker-ascii-map.py
  
                                                    +- chesscorp_default ----------------+
                                                    | [✓] chesscorp_web_1                |
