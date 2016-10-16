@@ -5,6 +5,7 @@ setup(
     version='0.1',
     packages=[''],
     package_dir={'': 'src'},
+    scripts=['src/docker-ascii-map.py'],
     url='https://github.com/ChessCorp/docker-ascii-map',
     license='MIT',
     author='Yannick Kirschhoffer',
