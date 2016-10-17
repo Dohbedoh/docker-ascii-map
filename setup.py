@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='docker-ascii-map',
-    version='0.2',
+    version='0.3',
     packages=['docker_ascii_map'],
     package_dir={'': 'src'},
     scripts=['src/docker_ascii_map/docker-ascii-map.py'],

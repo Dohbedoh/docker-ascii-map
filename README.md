@@ -13,10 +13,10 @@ You can install this tool from PyPI:
 ```
 alcibiade@mobydick:~$ sudo pip3 install docker-ascii-map
 Collecting docker-ascii-map
-  Downloading docker-ascii-map-0.1.tar.gz
+  Downloading docker-ascii-map-0.2.tar.gz
 Installing collected packages: docker-ascii-map
   Running setup.py install for docker-ascii-map ... done
-Successfully installed docker-ascii-map-0.1
+Successfully installed docker-ascii-map-0.2
 
 ```
 
