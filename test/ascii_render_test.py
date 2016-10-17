@@ -29,6 +29,24 @@ class RenderingTests(unittest.TestCase):
             '+----------------------------+\n',
             renderer.render(config))
 
+    def test_ascii_fallback(self):
+        config = Configuration([
+            Container('n1', 'running', ['net1'], 'group1/image-long-name', []),
+            Container('n2', 'stopped', ['net2'], 'group2/image-short', []),
+        ])
+        renderer = Renderer()
+
+        self.assertEqual(
+            '+- net1 ---------------------+\n'
+            '| [V] n1                     |\n'
+            '|     group1/image-long-name |\n'
+            '+----------------------------+\n'
+            '+- net2 ---------------------+\n'
+            '| [x] n2                     |\n'
+            '|     group2/image-short     |\n'
+            '+----------------------------+\n',
+            renderer.render(config, 'ascii'))
+
     def test_dual_net_config(self):
         self.maxDiff = None
         config = Configuration([

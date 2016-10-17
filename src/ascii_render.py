@@ -2,12 +2,13 @@ from docker_config import Configuration, Container
 from widget import *
 
 
-def build_container_widget(container: Container) -> Widget:
+def build_container_widget(container: Container, encoding: str) -> Widget:
     lines = []
-    if container.status == 'running':
-        statuschar = u"\u2713"
+    if encoding == 'UTF-8':
+        statuschar = u"\u2713" if container.status == 'running' else u"\u274c"
     else:
-        statuschar = u"\u274c"
+        statuschar = 'V' if container.status == 'running' else 'x'
+
     lines.append('[' + statuschar + '] ' + container.name)
     lines.append('    ' + container.image)
     container_widget = Paragraph(lines)
@@ -41,7 +42,7 @@ class Renderer:
     def __init__(self):
         pass
 
-    def render(self, config: Configuration):
+    def render(self, config: Configuration, encoding: str = 'UTF-8'):
         network_widgets = []
 
         networks = build_ordered_network_list(config)
@@ -56,7 +57,7 @@ class Renderer:
 
             for container in config.containers:
                 if [net] == container.networks:
-                    container_widget = build_container_widget(container)
+                    container_widget = build_container_widget(container, encoding)
                     cnt_widgets_map[container] = container_widget
                     net_widgets.append(container_widget)
 
@@ -71,7 +72,7 @@ class Renderer:
 
         for container in config.containers:
             if len(container.networks) > 1:
-                c = Padding(build_container_widget(container), Size(1, 0))
+                c = Padding(build_container_widget(container, encoding), Size(1, 0))
                 cnt_widgets_map[container] = c
                 padded = Padding(c, Size(12, 2))
                 bridge_widgets.append(padded)
