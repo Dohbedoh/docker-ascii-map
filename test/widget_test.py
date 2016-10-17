@@ -1,7 +1,8 @@
 import unittest
 
-from raster import Boundary
-from widget import *
+from docker_ascii_map.widget import *
+
+from docker_ascii_map.raster import Boundary
 
 
 class ModelTests(unittest.TestCase):

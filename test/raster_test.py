@@ -1,6 +1,6 @@
 import unittest
 
-from raster import Raster, Boundary
+from docker_ascii_map.raster import Raster, Boundary
 
 
 class RasterTests(unittest.TestCase):

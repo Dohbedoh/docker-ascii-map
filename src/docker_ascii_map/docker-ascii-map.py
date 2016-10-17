@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import sys
 
-from ascii_render import Renderer
-from docker_config import ConfigParser
+from docker_ascii_map.docker_config import ConfigParser
+
+from docker_ascii_map.ascii_render import Renderer
 
 if __name__ == '__main__':
     parser = ConfigParser()

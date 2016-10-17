@@ -1,5 +1,6 @@
-from docker_config import Configuration, Container
-from widget import *
+from docker_ascii_map.widget import *
+
+from docker_ascii_map.docker_config import Configuration, Container
 
 
 def build_container_widget(container: Container, encoding: str) -> Widget:

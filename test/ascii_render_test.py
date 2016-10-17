@@ -1,7 +1,8 @@
 import unittest
 
-from ascii_render import Renderer
-from docker_config import *
+from docker_ascii_map.docker_config import *
+
+from docker_ascii_map.ascii_render import Renderer
 
 
 class RenderingTests(unittest.TestCase):

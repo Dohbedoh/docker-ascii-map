@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from raster import Raster
+from docker_ascii_map.raster import Raster
 
 
 class Size:
