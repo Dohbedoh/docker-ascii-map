@@ -20,7 +20,7 @@ class Container:
         self.image = image
         self.ports = ports
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return '%s - %s - %s %s' % (self.name, self.status, self.networks, self.ports)
 
 
@@ -28,8 +28,8 @@ class Configuration:
     def __init__(self, containers: List[Container]):
         self.containers = containers
 
-    def __str__(self):
-        return str([str(c) for c in self.containers])
+    def __repr__(self):
+        return str([repr(c) for c in self.containers])
 
 
 class ConfigParser:
