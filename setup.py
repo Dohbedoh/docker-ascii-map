@@ -1,11 +1,15 @@
-from distutils.core import setup
+#!/usr/bin/env python3
+from setuptools import setup
 
 setup(
     name='docker-ascii-map',
     version='0.3',
     packages=['docker_ascii_map'],
-    package_dir={'': 'src'},
-    scripts=['src/docker_ascii_map/docker-ascii-map.py'],
+    package_dir={'docker_ascii_map': 'docker_ascii_map'},
+    scripts=['docker_ascii_map/docker-ascii-map.py'],
+    test_suite='tests',
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
     url='https://github.com/ChessCorp/docker-ascii-map',
     license='MIT',
     author='Yannick Kirschhoffer',

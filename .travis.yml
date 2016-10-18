@@ -2,7 +2,12 @@ language: python
 python:
   - "3.5"
 
-# command to install dependencies
-install: "pip install -r requirements.txt"
-# command to run tests
-script: nosetests
+install: 
+ - pip install -r requirements.txt
+ - pip install coveralls
+
+script:
+  coverage run --source=docker_ascii_art setup.py test
+
+after_success:
+  coveralls
