@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y python3 python3-pip
 RUN update-ca-certificates -f
 RUN pip3 install docker-py
 
-COPY src/docker-ascii-map.py /usr/local/bin/
+COPY . /usr/local/src/docker-ascii-map
+RUN cd /usr/local/src/docker-ascii-map && python3 setup.py install
 
-CMD python3 /usr/local/bin/docker-ascii-map.py
+CMD /usr/local/bin/docker-ascii-map.py
