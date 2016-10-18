@@ -1,5 +1,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/ChessCorp/docker-ascii-map/badge.svg?branch=master)](https://coveralls.io/github/ChessCorp/docker-ascii-map?branch=master)
 [![Build Status](https://travis-ci.org/ChessCorp/docker-ascii-map.svg?branch=master)](https://travis-ci.org/ChessCorp/docker-ascii-map)
+[![PyPI version](https://badge.fury.io/py/docker-ascii-map.svg)](https://badge.fury.io/py/docker-ascii-map)
 
 # docker-ascii-map
 A set of python scripts displaying the local docker containers structure and status on an ascii map.
