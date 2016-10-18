@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/ChessCorp/docker-ascii-map/badge.svg?branch=master)](https://coveralls.io/github/ChessCorp/docker-ascii-map?branch=master)
+
 # docker-ascii-map
 A set of python scripts displaying the local docker containers structure and status on an ascii map.
 
