@@ -5,7 +5,7 @@ from docker_ascii_map.widget import *
 from docker_ascii_map.docker_config import Configuration, Container
 
 
-def build_container_widget(container: Container, encoding: str) -> Widget:
+def build_container_widget(container: Container, encoding: str, color: bool) -> Widget:
     lines = []
     if encoding == 'UTF-8':
         statuschar = u"\u2713" if container.status == 'running' else u"\u274c"
@@ -57,7 +57,7 @@ class Renderer:
     def __init__(self):
         pass
 
-    def render(self, config: Configuration, encoding: str = 'UTF-8'):
+    def render(self, config: Configuration, encoding: str = 'UTF-8', color: bool = False):
         network_widgets = []
 
         networks = build_ordered_network_list(config)
@@ -72,7 +72,7 @@ class Renderer:
 
             for container in config.containers:
                 if [net] == container.networks:
-                    container_widget = build_container_widget(container, encoding)
+                    container_widget = build_container_widget(container, encoding, color)
                     cnt_widgets_map[container] = container_widget
                     net_widgets.append(build_container_wrapper(container, container_widget))
 
@@ -87,7 +87,7 @@ class Renderer:
 
         for container in config.containers:
             if len(container.networks) > 1:
-                c = Padding(build_container_widget(container, encoding), Size(1, 0))
+                c = Padding(build_container_widget(container, encoding, color), Size(1, 0))
                 cnt_widgets_map[container] = c
                 padded = Padding(c, Size(12, 2))
                 bridge_widgets.append(padded)
