@@ -131,6 +131,7 @@ class RenderingTests(unittest.TestCase):
                           PortMapping(private_port=8080, public_port=80),
                           PortMapping(private_port=22, public_port=22),
                           PortMapping(private_port=25, public_port=25),
+                          PortMapping(private_port=5432, public_port=54),
                       ]),
         ])
         renderer = Renderer()
@@ -144,9 +145,11 @@ class RenderingTests(unittest.TestCase):
             '     |     im |\n'
             '     +--------+\n'
             '     +- net2 -+\n'
-            '80 ]-+ [✓] n2 |\n'
-            '22 ]-+     im |\n'
-            '25 ]-+--------+\n'
+            '80 ]-+        |\n'
+            '22 ]-+ [✓] n2 |\n'
+            '25 ]-+     im |\n'
+            '54 ]-+        |\n'
+            '     +--------+\n'
             , text)
 
 

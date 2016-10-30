@@ -1,3 +1,5 @@
+import math
+
 from docker_ascii_map.widget import *
 
 from docker_ascii_map.docker_config import Configuration, Container
@@ -16,7 +18,7 @@ def build_container_widget(container: Container, encoding: str) -> Widget:
     return container_widget
 
 
-def build_ordered_network_list(config):
+def build_ordered_network_list(config: Configuration) -> List[str]:
     networks = set()
 
     for container in config.containers:
@@ -37,6 +39,18 @@ def build_ordered_network_list(config):
                 networks.insert(base_index, net)
 
     return networks
+
+
+def build_container_wrapper(container: Container, container_widget: Widget) -> Widget:
+    ports_count = len(container.ports)
+    total_padding = ports_count - 2
+
+    if total_padding <= 0:
+        return container_widget
+    else:
+        return Padding(container_widget,
+                       Size(0, int(math.floor(total_padding / 2))),
+                       Size(0, int(math.ceil(total_padding / 2))))
 
 
 class Renderer:
@@ -60,7 +74,7 @@ class Renderer:
                 if [net] == container.networks:
                     container_widget = build_container_widget(container, encoding)
                     cnt_widgets_map[container] = container_widget
-                    net_widgets.append(container_widget)
+                    net_widgets.append(build_container_wrapper(container, container_widget))
 
             net_box = Border(VBox(net_widgets), net)
             net_widgets_map[net] = net_box

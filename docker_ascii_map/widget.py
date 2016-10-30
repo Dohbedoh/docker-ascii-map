@@ -205,19 +205,28 @@ class Annotations(Widget):
         raster = Raster()
         raster.write(self._width, 0, self._content.render(hints))
 
+        widget_annotations_map = {}
+
         used_y = []
 
         for widget, annotation_text in self._annotations:
+            if widget not in widget_annotations_map.keys():
+                widget_annotations_map[widget] = []
+
+            widget_annotations_map[widget].append(annotation_text)
+
+        for widget, annotations in widget_annotations_map.items():
             bounds = raster.origin_bounds(widget)
-            y = int(bounds.y + bounds.h / 2) - 1
+            y = int(bounds.y + (bounds.h - len(annotations)) / 2)
 
-            while y in used_y:
-                y += 1
+            for annotation in annotations:
+                while y in used_y:
+                    y += 1
 
-            used_y.append(y)
+                used_y.append(y)
 
-            raster.write(0, y, annotation_text)
-            raster.write(self._width, y, ' ]-')
-            raster.draw_line(self._width + 3, y, bounds.x - 1, y)
+                raster.write(0, y, annotation)
+                raster.write(self._width, y, ' ]-')
+                raster.draw_line(self._width + 3, y, bounds.x - 1, y)
 
         return raster

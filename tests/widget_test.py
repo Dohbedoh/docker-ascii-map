@@ -213,6 +213,21 @@ class ModelTests(unittest.TestCase):
             , str(model.render())
         )
 
+    def test_Annotation_Alignment(self):
+        self.maxDiff = None
+        w1 = Paragraph(['Hello', 'World !', 'Line 3', 'Line 4'])
+        model = Annotations(w1, [(w1, '23'), (w1, '22'), (w1, '24'), (w1, '24')])
+
+        text = str(model.render())
+
+        self.assertEqual(
+            '23 ]-Hello  \n'
+            '22 ]-World !\n'
+            '24 ]-Line 3 \n'
+            '24 ]-Line 4 \n'
+            , text
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
