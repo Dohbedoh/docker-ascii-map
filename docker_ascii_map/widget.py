@@ -76,20 +76,20 @@ class Border(Widget):
         r = Raster()
 
         for y in range(cmp_h + 2):
-            r.write(0, y, '|', self)
-            r.write(width + 1, y, '|', self)
+            r.write(0, y, '|', origin=self, color='grey')
+            r.write(width + 1, y, '|', origin=self, color='grey')
 
         for x in range(width + 2):
-            r.write(x, 0, '-', self)
-            r.write(x, cmp_h + 1, '-', self)
+            r.write(x, 0, '-', origin=self, color='grey')
+            r.write(x, cmp_h + 1, '-', origin=self, color='grey')
 
-        r.write(0, 0, '+', self)
-        r.write(width + 1, 0, '+', self)
-        r.write(0, cmp_h + 1, '+', self)
-        r.write(width + 1, cmp_h + 1, '+', self)
+        r.write(0, 0, '+', origin=self, color='grey')
+        r.write(width + 1, 0, '+', origin=self, color='grey')
+        r.write(0, cmp_h + 1, '+', origin=self, color='grey')
+        r.write(width + 1, cmp_h + 1, '+', origin=self, color='grey')
 
         if len(self._title) > 0:
-            r.write(2, 0, ' ' + self._title + ' ', self)
+            r.write(2, 0, ' ' + self._title + ' ', origin=self, color='white')
 
         r.write(1, 1, cmp_raster)
 
