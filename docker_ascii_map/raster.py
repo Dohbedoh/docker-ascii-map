@@ -1,5 +1,7 @@
 from typing import Tuple
 
+import termcolor
+
 
 class Boundary:
     def __init__(self, x: int, y: int, w: int, h: int):
@@ -107,7 +109,10 @@ class Raster:
 
         for line in self._cells:
             for c in line:
-                text += c.character
+                if self._color and c.color:
+                    text += termcolor.colored(c.character, c.color)
+                else:
+                    text += c.character
 
             text += '\n'
 
