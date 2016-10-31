@@ -8,7 +8,7 @@ from docker_ascii_map.docker_config import ConfigParser
 from docker_ascii_map.ascii_render import Renderer
 
 parser = argparse.ArgumentParser(description='Display the docker host contents on a visual map.')
-parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
+parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + __version__)
 parser.add_argument('-c', '--color', action='store_const', const='color', help='Use color in map display')
 parser.add_argument('-m', '--mono', action='store_const', const='mono', help='Render the map in monochrome')
 
