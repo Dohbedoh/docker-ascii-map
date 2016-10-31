@@ -15,37 +15,48 @@ class Boundary:
         return '%d,%d %dx%d' % (self.x, self.y, self.w, self.h)
 
 
-class Raster:
-    def __init__(self):
-        self._cells = []
-        self._default = ' ', None
+class RasterCell:
+    def __init__(self, character: str = ' ', origin: object = None, color: str = None):
+        self.character = character
+        self.origin = origin
+        self.color = color
 
-    def write(self, x: int, y: int, text, origin: object = None):
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
+
+class Raster:
+    def __init__(self, color: bool = False):
+        self._cells = []
+        self._default = RasterCell()
+        self._color = color
+
+    def write(self, x: int, y: int, text, origin: object = None, color: str = None):
         if type(text) is Raster:
             rastersize_x, rastersize_y = text.size()
 
             for ry in range(rastersize_y):
                 for rx in range(rastersize_x):
-                    c, o = text.get(rx, ry)
-                    self.write(x + rx, y + ry, c, o)
+                    cell = text.get(rx, ry)
+                    self.write(x + rx, y + ry, origin=cell.origin, color=cell.color, text=cell.character)
         else:
             self._expand(x + len(text), y + 1)
 
             for i in range(len(text)):
-                self._cells[y][x + i] = text[i], origin
+                self._cells[y][x + i] = RasterCell(character=text[i], origin=origin, color=color)
 
     def draw_line(self, src_x, src_y, dst_x, dst_y):
         med_x = int((src_x + dst_x) / 2)
 
         for x in range(src_x, dst_x):
             y = src_y if x < med_x else dst_y
-            if self.get(x,y)[0] in ['|', '+']:
+            if self.get(x, y).character in ['|', '+']:
                 self.write(x, y, '+')
             else:
                 self.write(x, y, '-')
 
         for y in range(min(src_y, dst_y), max(src_y, dst_y)):
-            if self.get(med_x, y)[0] != '+':
+            if self.get(med_x, y).character != '+':
                 self.write(med_x, y, '|')
 
         if src_y != dst_y:
@@ -59,7 +70,7 @@ class Raster:
         while len(self._cells[y - 1]) < x:
             self._cells[y - 1].append(self._default)
 
-    def get(self, x: int, y: int) -> Tuple[str, object]:
+    def get(self, x: int, y: int) -> RasterCell:
         if y >= 0 and y < len(self._cells) and x >= 0 and x < len(self._cells[y]):
             return self._cells[y][x]
         else:
@@ -79,7 +90,7 @@ class Raster:
         for y in range(raster_h):
             for x in range(raster_w):
                 cell = self.get(x, y)
-                if origin == cell[1]:
+                if origin == cell.origin:
                     if b_w == 0:
                         b_x, b_y, b_w, b_h = x, y, 1, 1
                     else:
@@ -96,7 +107,7 @@ class Raster:
 
         for line in self._cells:
             for c in line:
-                text += c[0]
+                text += c.character
 
             text += '\n'
 

@@ -1,6 +1,6 @@
 import unittest
 
-from docker_ascii_map.raster import Raster, Boundary
+from docker_ascii_map.raster import Raster, Boundary, RasterCell
 
 
 class RasterTests(unittest.TestCase):
@@ -8,7 +8,7 @@ class RasterTests(unittest.TestCase):
         raster = Raster()
         self.assertEqual('', str(raster))
         self.assertEqual((0, 0), raster.size())
-        self.assertEqual((' ', None), raster.get(5, 4))
+        self.assertEqual(RasterCell(), raster.get(5, 4))
 
     def test_expansion(self):
         raster = Raster()
@@ -87,7 +87,6 @@ class RasterTests(unittest.TestCase):
             , str(r)
         )
 
-
     def test_line_overlap(self):
         r = Raster()
         r.draw_line(0, 3, 6, 2)
@@ -99,6 +98,18 @@ class RasterTests(unittest.TestCase):
             '---+\n'
             , str(r)
         )
+
+    def test_color_disabled(self):
+        r = Raster(color=False)
+        r.write(0, 0, 'Red', color='red')
+        r.write(0, 1, 'Green', color='green')
+        print(str(r))
+
+    def test_color_enabled(self):
+        r = Raster(color=True)
+        r.write(0, 0, 'Red', color='red')
+        r.write(0, 1, 'Green', color='green')
+        print(str(r))
 
 
 if __name__ == '__main__':
