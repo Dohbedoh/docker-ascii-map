@@ -7,14 +7,18 @@ from docker_ascii_map.docker_config import Configuration, Container
 
 def build_container_widget(container: Container, encoding: str, color: bool) -> Widget:
     lines = []
+    container_running = container.status == 'running'
+
     if encoding == 'UTF-8':
-        statuschar = u"\u2713" if container.status == 'running' else u"\u274c"
+        statuschar = u"\u2713" if container_running else u"\u274c"
     else:
-        statuschar = 'V' if container.status == 'running' else 'x'
+        statuschar = 'V' if container_running else 'x'
+
+    color = 'green' if container_running else 'red'
 
     lines.append('[' + statuschar + '] ' + container.name)
     lines.append('    ' + container.image)
-    container_widget = Paragraph(lines)
+    container_widget = Paragraph(lines, color=color)
     return container_widget
 
 
@@ -112,4 +116,4 @@ class Renderer:
         ports_box = Annotations(links_box, portmaps)
 
         root_box = ports_box
-        return str(root_box.render())
+        return root_box.render().text(color)

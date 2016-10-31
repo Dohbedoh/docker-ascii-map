@@ -100,7 +100,7 @@ class RasterTests(unittest.TestCase):
         )
 
     def test_color_disabled(self):
-        r = Raster(color=False)
+        r = Raster()
         r.write(0, 0, 'Red', color='red')
         r.write(0, 1, 'Green', color='green')
         self.assertEqual(
@@ -110,12 +110,12 @@ class RasterTests(unittest.TestCase):
         )
 
     def test_color_enabled(self):
-        r = Raster(color=True)
+        r = Raster()
         r.write(0, 0, 'Red', color='red')
         r.write(0, 1, 'Green', color='green')
         self.assertEqual(
             '\x1b[31mR\x1b[0m\x1b[31me\x1b[0m\x1b[31md\x1b[0m\n\x1b[32mG\x1b[0m\x1b[32mr\x1b[0m\x1b[32me\x1b[0m\x1b[32me\x1b[0m\x1b[32mn\x1b[0m\n'
-            , str(r)
+            , r.text(True)
         )
 
 

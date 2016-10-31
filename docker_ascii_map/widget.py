@@ -148,8 +148,9 @@ class HBox(Widget):
 
 
 class Paragraph(Widget):
-    def __init__(self, lines: List[str]):
+    def __init__(self, lines: List[str], color: str = None):
         self._lines = lines
+        self._color = color
 
     def preferred_size(self) -> Size:
         return Size(max([len(l) for l in self._lines]), len(self._lines))
@@ -158,7 +159,7 @@ class Paragraph(Widget):
         r = Raster()
 
         for l in self._lines:
-            r.write(0, r.size()[1], l, self)
+            r.write(0, r.size()[1], l, origin=self, color=self._color)
 
         return r
 

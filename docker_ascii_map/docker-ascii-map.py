@@ -21,5 +21,5 @@ if __name__ == '__main__':
 
     config = config_parser.get_configuration()
     # print(config)
-    text = renderer.render(config, sys.stdout.encoding, color_mode)
+    text = renderer.render(config, encoding=sys.stdout.encoding, color=color_mode)
     print(text)

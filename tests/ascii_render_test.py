@@ -48,6 +48,24 @@ class RenderingTests(unittest.TestCase):
             '+----------------------------+\n',
             renderer.render(config, 'ascii'))
 
+    def test_container_color(self):
+        config = Configuration([
+            Container('n1', 'running', ['net1'], 'group1/image-long-name', []),
+            Container('n2', 'stopped', ['net2'], 'group2/image-short', []),
+        ])
+        renderer = Renderer()
+
+        self.assertNotEquals(
+            '+- net1 ---------------------+\n'
+            '| [✓] n1                     |\n'
+            '|     group1/image-long-name |\n'
+            '+----------------------------+\n'
+            '+- net2 ---------------------+\n'
+            '| [❌] n2                     |\n'
+            '|     group2/image-short     |\n'
+            '+----------------------------+\n',
+            renderer.render(config, color=True))
+
     def test_dual_net_config(self):
         self.maxDiff = None
         config = Configuration([

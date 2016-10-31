@@ -28,10 +28,9 @@ class RasterCell:
 
 
 class Raster:
-    def __init__(self, color: bool = False):
+    def __init__(self):
         self._cells = []
         self._default = RasterCell()
-        self._color = color
 
     def write(self, x: int, y: int, text, origin: object = None, color: str = None):
         if type(text) is Raster:
@@ -104,12 +103,12 @@ class Raster:
 
         return Boundary(b_x, b_y, b_w, b_h) if b_w > 0 else None
 
-    def __str__(self):
+    def text(self, color: bool = False):
         text = ''
 
         for line in self._cells:
             for c in line:
-                if self._color and c.color:
+                if color and c.color:
                     text += termcolor.colored(c.character, c.color)
                 else:
                     text += c.character
@@ -117,3 +116,6 @@ class Raster:
             text += '\n'
 
         return text
+
+    def __str__(self):
+        return self.text()
