@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 
 import termcolor
 
@@ -18,10 +18,11 @@ class Boundary:
 
 
 class RasterCell:
-    def __init__(self, character: str = ' ', origin: object = None, color: str = None):
+    def __init__(self, character: str = ' ', origin: object = None, color: str = None, attrs: List[str] = None):
         self.character = character
         self.origin = origin
         self.color = color
+        self.attrs = attrs
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -32,19 +33,20 @@ class Raster:
         self._cells = []
         self._default = RasterCell()
 
-    def write(self, x: int, y: int, text, origin: object = None, color: str = None):
+    def write(self, x: int, y: int, text, origin: object = None, color: str = None, attrs: List[str] = None):
         if type(text) is Raster:
             rastersize_x, rastersize_y = text.size()
 
             for ry in range(rastersize_y):
                 for rx in range(rastersize_x):
                     cell = text.get(rx, ry)
-                    self.write(x + rx, y + ry, origin=cell.origin, color=cell.color, text=cell.character)
+                    self.write(x + rx, y + ry, origin=cell.origin, color=cell.color, attrs=cell.attrs,
+                               text=cell.character)
         else:
             self._expand(x + len(text), y + 1)
 
             for i in range(len(text)):
-                self._cells[y][x + i] = RasterCell(character=text[i], origin=origin, color=color)
+                self._cells[y][x + i] = RasterCell(character=text[i], origin=origin, color=color, attrs=attrs)
 
     def draw_line(self, src_x, src_y, dst_x, dst_y):
         med_x = int((src_x + dst_x) / 2)
@@ -109,7 +111,7 @@ class Raster:
         for line in self._cells:
             for c in line:
                 if color and c.color:
-                    text += termcolor.colored(c.character, c.color)
+                    text += termcolor.colored(c.character, c.color, attrs=c.attrs)
                 else:
                     text += c.character
 

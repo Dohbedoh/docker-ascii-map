@@ -76,17 +76,17 @@ class Border(Widget):
         r = Raster()
 
         for y in range(cmp_h + 2):
-            r.write(0, y, '|', origin=self, color='grey')
-            r.write(width + 1, y, '|', origin=self, color='grey')
+            r.write(0, y, '|', origin=self, color='white', attrs=['dark'])
+            r.write(width + 1, y, '|', origin=self, color='white', attrs=['dark'])
 
         for x in range(width + 2):
-            r.write(x, 0, '-', origin=self, color='grey')
-            r.write(x, cmp_h + 1, '-', origin=self, color='grey')
+            r.write(x, 0, '-', origin=self, color='white', attrs=['dark'])
+            r.write(x, cmp_h + 1, '-', origin=self, color='white', attrs=['dark'])
 
-        r.write(0, 0, '+', origin=self, color='grey')
-        r.write(width + 1, 0, '+', origin=self, color='grey')
-        r.write(0, cmp_h + 1, '+', origin=self, color='grey')
-        r.write(width + 1, cmp_h + 1, '+', origin=self, color='grey')
+        r.write(0, 0, '+', origin=self, color='white', attrs=['dark'])
+        r.write(width + 1, 0, '+', origin=self, color='white', attrs=['dark'])
+        r.write(0, cmp_h + 1, '+', origin=self, color='white', attrs=['dark'])
+        r.write(width + 1, cmp_h + 1, '+', origin=self, color='white', attrs=['dark'])
 
         if len(self._title) > 0:
             r.write(2, 0, ' ' + self._title + ' ', origin=self, color='white')
@@ -148,9 +148,10 @@ class HBox(Widget):
 
 
 class Paragraph(Widget):
-    def __init__(self, lines: List[str], color: str = None):
+    def __init__(self, lines: List[str], color: str = None, attrs: List[str] = None):
         self._lines = lines
         self._color = color
+        self._attrs = attrs
 
     def preferred_size(self) -> Size:
         return Size(max([len(l) for l in self._lines]), len(self._lines))
@@ -159,7 +160,7 @@ class Paragraph(Widget):
         r = Raster()
 
         for l in self._lines:
-            r.write(0, r.size()[1], l, origin=self, color=self._color)
+            r.write(0, r.size()[1], l, origin=self, color=self._color, attrs=self._attrs)
 
         return r
 
