@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 from setuptools import setup
+from docker_ascii_map import __version__
 
 setup(
     name='docker-ascii-map',
-    version='0.3',
+    version=__version__,
     packages=['docker_ascii_map'],
     package_dir={'docker_ascii_map': 'docker_ascii_map'},
     scripts=['docker_ascii_map/docker-ascii-map.py'],
