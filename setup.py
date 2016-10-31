@@ -9,7 +9,7 @@ setup(
     scripts=['docker_ascii_map/docker-ascii-map.py'],
     test_suite='tests',
     setup_requires=['pytest-runner'],
-    install_requires=['docker-py'],
+    install_requires=['docker-py', 'termcolor'],
     tests_require=['pytest'],
     url='https://github.com/ChessCorp/docker-ascii-map',
     license='MIT',
